@@ -1,21 +1,33 @@
 import React, { Component } from 'react';
 import Filters from './components/Filters';
 import Grid from './components/Grid';
+import { fetchRecipes } from './api';
 
 // Container holds the state of our app
 class Container extends Component {
     state = {
-        // test value, will be replaced by api
-        list: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+        recipes: [],
+        isLoading: false,
     };
 
+    componentDidMount() {
+        this.setState({ isLoading: true });
+        fetchRecipes().then((res) => {
+            this.setState({
+                recipes: res.hits,
+                isLoading: false,
+            });
+        });
+    }
+
     render() {
-        const { list } = this.state;
+        const { recipes, isLoading } = this.state;
 
         return (
             <div className="layout">
                 <Filters />
-                <Grid list={list} />
+                {recipes.length !== 0 && <Grid list={recipes} />}
+                {isLoading && 'Loading...'}
             </div>
         );
     }
