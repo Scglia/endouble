@@ -13,7 +13,7 @@ class Container extends Component {
         const { list } = this.state;
 
         return (
-            <div>
+            <div className="layout">
                 <Filters />
                 <Grid list={list} />
             </div>
