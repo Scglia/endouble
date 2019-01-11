@@ -20,7 +20,7 @@ class Filters extends Component {
             <div className={styles.container}>
                 <input
                     placeholder="Filter"
-                    className={`${styles.input} input`}
+                    className="input"
                     type="text"
                     value={filter}
                     onChange={this.changeHandler}
