@@ -27,9 +27,11 @@
   font-weight: 600;
   min-height: 2.5rem;
   text-align: left;
+  color: rgb(49, 47, 47);
 }
 
 .from {
   margin-top: 0.5rem;
   text-align: left;
+  color: rgb(133, 126, 126);
 }
