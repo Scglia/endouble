@@ -17,9 +17,9 @@ export const fetchRecipes = from => fetch(`https://api.edamam.com/search?app_id=
         const areThereMoreResults = json.more;
 
         // We use the uri as id
-        const recipes = json.hits.map(hit => hit.recipe);
-        const recipesIds = recipes.map(recipe => recipe.uri);
-        const recipesById = recipes.reduce((acc, recipe) => ({ ...acc, [recipe.uri]: recipe }), {});
+        const recipes = json.hits.map(hit => ({ ...hit.recipe, id: hit.recipe.uri }));
+        const recipesIds = recipes.map(recipe => recipe.id);
+        const recipesById = recipes.reduce((acc, recipe) => ({ ...acc, [recipe.id]: recipe }), {});
 
         return { areThereMoreResults, recipesIds, recipesById };
     })

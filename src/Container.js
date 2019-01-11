@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Filters from './components/Filters';
 import Grid from './components/Grid';
+import Detail from './components/Detail';
 import { fetchRecipes } from './api';
 
 // Container holds the state of our app
@@ -11,6 +12,7 @@ class Container extends Component {
         isLoading: false,
         areThereMoreResults: false,
         filter: '',
+        detailedRecipeId: null, // if not null, shows the detailed view of a recipe
     };
 
     componentDidMount() {
@@ -44,22 +46,37 @@ class Container extends Component {
         });
     };
 
-    handleClick = () => {};
+    showDetails = (recipeId) => {
+        this.setState({
+            detailedRecipeId: recipeId,
+        });
+    };
+
+    hideDetails = () => {
+        this.setState({
+            detailedRecipeId: null,
+        });
+    };
 
     render() {
         const recipes = this.getVisibleRecipes();
-        const { isLoading, areThereMoreResults, filter } = this.state;
+        const { isLoading, areThereMoreResults, filter, detailedRecipeId, recipesById } = this.state;
 
         return (
             <div className="layout">
                 <Filters handleChange={this.changeFilter} filter={filter} />
-                {recipes.length !== 0 && <Grid list={recipes} handleClick={this.handleClick} />}
+
+                {recipes.length !== 0 && <Grid list={recipes} handleClick={this.showDetails} />}
+
                 {!isLoading && areThereMoreResults && (
                     <button type="button" onClick={this.fetchRecipesFromApi}>
                         Load more
                     </button>
                 )}
+
                 {isLoading && 'Loading...'}
+
+                {detailedRecipeId && <Detail recipe={recipesById[detailedRecipeId]} hide={this.hideDetails} />}
             </div>
         );
     }
