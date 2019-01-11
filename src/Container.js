@@ -6,27 +6,50 @@ import { fetchRecipes } from './api';
 // Container holds the state of our app
 class Container extends Component {
     state = {
-        recipes: [],
+        recipesIds: [],
+        recipesById: {},
         isLoading: false,
+        areThereMoreResults: false,
     };
 
     componentDidMount() {
-        this.setState({ isLoading: true });
-        fetchRecipes().then((res) => {
-            this.setState({
-                recipes: res.hits,
-                isLoading: false,
-            });
-        });
+        this.fetchRecipesFromApi();
     }
 
+    fetchRecipesFromApi = () => {
+        const { recipesIds, recipesById } = this.state;
+
+        this.setState({ isLoading: true });
+        fetchRecipes(recipesIds.length).then((res) => {
+            this.setState({
+                recipesIds: [...recipesIds, ...res.recipesIds],
+                recipesById: { ...recipesById, ...res.recipesById },
+                isLoading: false,
+                areThereMoreResults: res.areThereMoreResults,
+            });
+        });
+    };
+
+    getVisibleRecipes = () => {
+        const { recipesIds, recipesById } = this.state;
+        return recipesIds.map(id => recipesById[id]);
+    };
+
+    handleClick = () => {};
+
     render() {
-        const { recipes, isLoading } = this.state;
+        const recipes = this.getVisibleRecipes();
+        const { isLoading, areThereMoreResults } = this.state;
 
         return (
             <div className="layout">
                 <Filters />
-                {recipes.length !== 0 && <Grid list={recipes} />}
+                {recipes.length !== 0 && <Grid list={recipes} handleClick={this.handleClick} />}
+                {!isLoading && areThereMoreResults && (
+                    <button type="button" onClick={this.fetchRecipesFromApi}>
+                        Load more
+                    </button>
+                )}
                 {isLoading && 'Loading...'}
             </div>
         );

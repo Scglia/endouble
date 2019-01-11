@@ -10,8 +10,17 @@ function handleErrors(response) {
 }
 
 /* eslint-disable import/prefer-default-export */
-export const fetchRecipes = () => fetch(`https://api.edamam.com/search?app_id=${appId}&app_key=${appKey}&q=pasta`)
+export const fetchRecipes = from => fetch(`https://api.edamam.com/search?app_id=${appId}&app_key=${appKey}&from=${from}&q=pasta`)
     .then(handleErrors)
     .then(res => res.json())
-    .then(json => json)
+    .then((json) => {
+        const areThereMoreResults = json.more;
+
+        // We use the uri as id
+        const recipes = json.hits.map(hit => hit.recipe);
+        const recipesIds = recipes.map(recipe => recipe.uri);
+        const recipesById = recipes.reduce((acc, recipe) => ({ ...acc, [recipe.uri]: recipe }), {});
+
+        return { areThereMoreResults, recipesIds, recipesById };
+    })
     .catch(error => Promise.reject(error));
