@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styles from './Filters.module.css';
 
 class Filters extends Component {
     clearFilters = () => {
@@ -16,9 +17,15 @@ class Filters extends Component {
         const { filter } = this.props;
 
         return (
-            <div>
-                <input type="text" value={filter} onChange={this.changeHandler} />
-                <button type="button" onClick={this.clearFilters}>
+            <div className={styles.container}>
+                <input
+                    placeholder="Filter"
+                    className={`${styles.input} input`}
+                    type="text"
+                    value={filter}
+                    onChange={this.changeHandler}
+                />
+                <button className={`${styles.button} button`} type="button" onClick={this.clearFilters}>
                     Clear
                 </button>
             </div>

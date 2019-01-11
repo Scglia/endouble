@@ -68,13 +68,15 @@ class Container extends Component {
 
                 {recipes.length !== 0 && <Grid list={recipes} handleClick={this.showDetails} />}
 
+                {recipes.length === 0 && !isLoading && <div>No pasta recipes found.</div>}
+
                 {!isLoading && areThereMoreResults && (
-                    <button type="button" onClick={this.fetchRecipesFromApi}>
+                    <button type="button" className="button container-text" onClick={this.fetchRecipesFromApi}>
                         Load more
                     </button>
                 )}
 
-                {isLoading && 'Loading...'}
+                {isLoading && <div className="container-text">Loading...</div>}
 
                 {detailedRecipeId && <Detail recipe={recipesById[detailedRecipeId]} hide={this.hideDetails} />}
             </div>

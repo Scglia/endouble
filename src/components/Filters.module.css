@@ -1,0 +1,13 @@
+.container {
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 22rem;
+  display: flex;
+}
+
+.input {
+}
+
+.button {
+  margin-left: 1rem;
+}
