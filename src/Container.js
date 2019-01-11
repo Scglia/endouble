@@ -10,6 +10,7 @@ class Container extends Component {
         recipesById: {},
         isLoading: false,
         areThereMoreResults: false,
+        filter: '',
     };
 
     componentDidMount() {
@@ -31,19 +32,27 @@ class Container extends Component {
     };
 
     getVisibleRecipes = () => {
-        const { recipesIds, recipesById } = this.state;
-        return recipesIds.map(id => recipesById[id]);
+        const { recipesIds, recipesById, filter } = this.state;
+        return recipesIds
+            .filter(id => recipesById[id].label.toLowerCase().includes(filter.toLowerCase()))
+            .map(id => recipesById[id]);
+    };
+
+    changeFilter = (value) => {
+        this.setState({
+            filter: value,
+        });
     };
 
     handleClick = () => {};
 
     render() {
         const recipes = this.getVisibleRecipes();
-        const { isLoading, areThereMoreResults } = this.state;
+        const { isLoading, areThereMoreResults, filter } = this.state;
 
         return (
             <div className="layout">
-                <Filters />
+                <Filters handleChange={this.changeFilter} filter={filter} />
                 {recipes.length !== 0 && <Grid list={recipes} handleClick={this.handleClick} />}
                 {!isLoading && areThereMoreResults && (
                     <button type="button" onClick={this.fetchRecipesFromApi}>
