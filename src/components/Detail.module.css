@@ -1,0 +1,73 @@
+.container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.detail {
+  background-color: white;
+  padding: 2rem;
+  max-width: 25rem;
+  border-radius: 10px;
+  overflow: auto;
+  max-height: 100%;
+  border: 1px solid rgb(247, 247, 247);
+}
+
+.image {
+  display: block;
+  border-radius: 50%;
+  height: 10rem;
+  width: 10rem;
+  background-size: cover;
+  background-position: center;
+  margin: auto;
+}
+
+.element:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.button {
+  width: 100%;
+  display: block;
+}
+
+.link,
+.link:link,
+.link:visited,
+.link:focus,
+.link:hover,
+.link:active {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  min-height: 2.5rem;
+  text-align: center;
+  color: rgb(49, 47, 47);
+  font-family: "Merriweather", serif;
+}
+
+.ingredients {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 500px) {
+  .container {
+    align-items: flex-end;
+    padding: 0;
+  }
+}
